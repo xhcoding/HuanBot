@@ -1,16 +1,14 @@
-import os
-
+from launch_ros.substitutions import FindPackageShare
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import SetEnvironmentVariable
-from ament_index_python.packages import get_package_share_directory
-from launch.substitutions import Command, FindExecutable
+from launch.substitutions import Command, FindExecutable, PathSubstitution
 
 
 def generate_launch_description():
-    pkg_path = get_package_share_directory("robot_describes")
-    urdf_file = os.path.join(pkg_path, "urdf", "ackermann_car.urdf.xacro")
-    rviz_file = os.path.join(pkg_path, "rviz", "display_robot.rviz")
+    pkg_path = FindPackageShare("robot_describes")
+    urdf_file = PathSubstitution([pkg_path, "urdf", "ackermann_car.urdf.xacro"])
+    rviz_file = PathSubstitution([pkg_path, "rviz", "display_robot.rviz"])
 
     robot_description_content = Command([FindExecutable(name="xacro"), " ", urdf_file])
 
@@ -41,7 +39,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            SetEnvironmentVariable("QT_SCREEN_SCALE_FACTORS", "0"),
+            SetEnvironmentVariable("QT_ENABLE_HIGHDPI_SCALING", "0"),
             robot_state_pub,
             robot_joint_pub,
             rviz_node,

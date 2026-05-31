@@ -1,0 +1,27 @@
+controller_manager:
+    ros__parameters:
+        update_rate: 100 # 控制器执行频率 hz
+
+        # 关节状态发布
+        joint_state_broadcaster:
+            type: joint_state_broadcaster/JointStateBroadcaster
+
+ackermann_steering_controller:
+    ros__parameters:
+        type: 'ackermann_steering_controller/AckermannSteeringController'
+        wheelbase: 2.838  # 轴距：前轴中心到后轴中心的距离，单位m
+        traction_track_width: 1.7472  # 驱动轮轮距：左右驱动轮中心之间的距离，单位m
+        steering_track_width: 1.7108  # 转向轮轮距：左右转向轮中心之间的距离，单位m
+        traction_wheels_radius: 0.3625  # 驱动轮半径，单位m
+        steering_wheels_radius: 0.3625  # 转向轮半径，单位m
+        reference_timeout: 2.0  # 指令超时时间：超过2秒未收到cmd_vel则自动停车，单位s
+        traction_joints_names: ['rear_right_wheel_joint', 'rear_left_wheel_joint']  # 驱动轮关节名称（ROS关节名）
+        steering_joints_names: ['right_wheel_steering_joint', 'left_wheel_steering_joint']  # 转向轮关节名称
+        open_loop: false  # 是否开环控制：false=闭环（使用反馈），true=开环（无反馈）
+        velocity_rolling_window_size: 10  # 速度滑动窗口大小：用于平滑速度计算的窗口长度
+        base_frame_id: base_link  # 机器人基坐标系名称
+        odom_frame_id: odom  # 里程计坐标系名称
+        enable_odom_tf: true  # 是否发布里程计TF坐标变换
+        twist_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]  # 速度协方差对角线（x,y,z,roll,pitch,yaw）
+        pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]  # 位姿协方差对角线（x,y,z,roll,pitch,yaw）
+        position_feedback: false  # 是否使用位置反馈：false=速度反馈，true=位置反馈（闭环控制用）

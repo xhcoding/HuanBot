@@ -7,7 +7,7 @@ find_package(rviz2 REQUIRED)
 find_package(urdf REQUIRED)
 
 install(
-  DIRECTORY launch urdf rviz model
+  DIRECTORY launch urdf rviz model world config
   DESTINATION share/${PROJECT_NAME}
 )
 
